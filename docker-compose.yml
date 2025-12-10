@@ -29,6 +29,3 @@ services:
 
   redis:
     image: redis:8.4.0-alpine3.22
-
-volumes:
-  database:
