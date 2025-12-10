@@ -1,0 +1,12 @@
+FROM    golang:1.25.3-alpine3.22
+
+WORKDIR /app
+
+COPY    . .
+
+ARG     version
+ENV     GOFLAGS="-ldflags=-X=killfeed.Version=${version}"
+ENV     ENVIRONMENT="production"
+
+RUN     go install -mod=vendor ./cmd/poller
+RUN     go install -mod=vendor ./cmd/streamapi

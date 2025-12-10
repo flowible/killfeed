@@ -1,0 +1,11 @@
+FROM    golang:1.25.3-alpine3.22
+
+RUN     go install github.com/cespare/reflex@latest
+
+WORKDIR /app
+
+ENV     ENVIRONMENT="development"
+
+COPY    . .
+
+CMD     ["sh", "-c", "reflex -s -r '\\.go$' -- sh -c 'go build -mod=vendor -o /go/bin/poller ./cmd/poller && /go/bin/poller'"]

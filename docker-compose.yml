@@ -1,0 +1,34 @@
+services:
+  poller:
+    depends_on:
+      - redis
+    build:
+      context: .
+      dockerfile: Dockerfile.poller.dev
+    environment:
+      - ESI_CONTACT_INFORMATION=${ESI_CONTACT_INFORMATION}
+      - REDIS_URL=${REDIS_URL}
+      - ZKILLBOARD_QUEUE_ID=${ZKILLBOARD_QUEUE_ID}
+    volumes:
+      - .:/app
+
+  streamapi:
+    depends_on:
+      - redis
+    build:
+      context: .
+      dockerfile: Dockerfile.streamapi.dev
+    ports:
+      - 8081:8081
+    environment:
+      - ESI_CONTACT_INFORMATION=${ESI_CONTACT_INFORMATION}
+      - REDIS_URL=${REDIS_URL}
+      - ZKILLBOARD_QUEUE_ID=${ZKILLBOARD_QUEUE_ID}
+    volumes:
+      - .:/app
+
+  redis:
+    image: redis:8.4.0-alpine3.22
+
+volumes:
+  database:
